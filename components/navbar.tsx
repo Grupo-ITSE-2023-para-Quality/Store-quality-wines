@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 import Container from "@/components/ui/container";
-import MainNav from "@/components/main.nav";
+import MainNav from "@/components/main-nav";
+import NavbarActions from "@/components/navbar-actions";
 import getCategories from "@/actions/get-categories"
 
 const Navbar = async () => {
@@ -15,6 +16,7 @@ const Navbar = async () => {
             <p className="font-bold text-xl">TIENDA</p>
           </Link>
           <MainNav data={categories} />
+          <NavbarActions />
         </div>
       </Container>
     </div>
