@@ -31,7 +31,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     sizeId: searchParams.sizeId,
   });
 
-  const size = await getSizes();
+  const sizes = await getSizes();
   //const colors = await getColor();
   const category = await getCategory(params.categoryId);
 
@@ -42,10 +42,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
-            <MobileFilters sizes={size} />
+            <MobileFilters sizes={sizes} />
             <div className="hidden lg:block">
-              <Filter valueKey="sizeId" name="Presentaciones" data={size} />
-              {/* Filtro de volumen/medida */}
+              <Filter valueKey="sizeId" name="Presentaciones" data={sizes} />
+              <MobileFilters sizes={sizes} />
             </div>
             <div className="mt-6 lg:col-span-4 lg:mt-0">
               {products.length === 0 && <NoResults />}
