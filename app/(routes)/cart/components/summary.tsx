@@ -48,9 +48,11 @@ const Summary = () => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button onClick={onCheckout} className="w-full mt-6">
-        Confirmar pedido
-      </Button>
+      <div className="mt-8">
+        <Button onClick={onCheckout} className="w-full">
+          Confirmar pedido
+        </Button>
+      </div>
     </div>
   );
 };
