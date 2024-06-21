@@ -1,5 +1,4 @@
 import getCategory from "@/actions/get-category";
-import getColor from "@/actions/get-colors";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
 import Billboard from "@/components/billboard";
@@ -16,7 +15,6 @@ interface CategoryPageProps {
     categoryId: string;
   };
   searchParams: {
-    //colorId: string;
     sizeId: string;
   };
 }
@@ -27,12 +25,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 }) => {
   const products = await getProducts({
     categoryId: params.categoryId,
-    //colorId: searchParams,
     sizeId: searchParams.sizeId,
   });
 
   const sizes = await getSizes();
-  //const colors = await getColor();
   const category = await getCategory(params.categoryId);
 
   return (

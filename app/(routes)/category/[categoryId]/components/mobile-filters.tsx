@@ -9,12 +9,10 @@ import Filter from "./filter";
 
 interface MobileFiltersProps {
   sizes: Size[];
-  //color
 }
 
 const MobileFilters: React.FC<MobileFiltersProps> = ({
   sizes,
-  //colors
 }) => {
   const [open, setOpen] = useState(false);
 
