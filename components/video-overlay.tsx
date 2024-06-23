@@ -1,4 +1,3 @@
-// src/components/VideoOverlay.js
 import React from 'react';
 
 const VideoOverlay: React.FC = () => {
@@ -21,7 +20,7 @@ const VideoOverlay: React.FC = () => {
     left: '0',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -40,10 +39,12 @@ const VideoOverlay: React.FC = () => {
   const titleStyle: React.CSSProperties = {
     fontSize: '3em',
     marginBottom: '5px',
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 5)',
   };
 
   const subTitleStyle: React.CSSProperties = {
     fontSize: '1.5em',
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 5)',
   };
 
   return (

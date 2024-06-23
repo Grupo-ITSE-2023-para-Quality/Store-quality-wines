@@ -1,4 +1,3 @@
-// src/components/IframeMap.js
 import React from 'react';
 
 const IframeMap: React.FC = () => {
@@ -11,7 +10,7 @@ const IframeMap: React.FC = () => {
   const headerStyle: React.CSSProperties = {
     marginBottom: '40px',
     fontSize: '36px',
-    fontWeight: 'black',
+    fontWeight: 'bold',
   };
 
   const contentStyle: React.CSSProperties = {

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 import Button from "@/components/ui/button";
@@ -14,11 +14,14 @@ const Summary = () => {
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (searchParams.get("success")) {
       toast.success("Pedido confirmado");
       removeAll();
     }
+    
 
     if (searchParams.get("Cancelado")) {
       toast.error("Algo salió mal");
@@ -39,6 +42,7 @@ const Summary = () => {
 
     window.location = response.data.url;
   };
+  
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-lg font-medium text-gray-900">Resumen</h2>
@@ -49,7 +53,7 @@ const Summary = () => {
         </div>
       </div>
       <div className="mt-8">
-        <Button onClick={onCheckout} className="w-full">
+        <Button onClick={() => router.push("/checkout")} className="w-full">
           Confirmar pedido
         </Button>
       </div>
