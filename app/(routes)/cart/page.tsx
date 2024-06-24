@@ -11,7 +11,7 @@ const CartPage = () => {
     return (
         <div className="bg-white">
             <Container>
-                <div className="px-4 py-16 sm:px-6 lg:px-8">
+                <div className="px-4 py-8 sm:px-6 lg:px-8">
                     <h1 className="text-3xl font-bold text-black">Carrito de compras</h1>
                     <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start gap-x-12">
                         <div className="lg:col-span-7">
