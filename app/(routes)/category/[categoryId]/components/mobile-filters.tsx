@@ -1,7 +1,7 @@
 "use client";
 
 import IconButton from "@/components/ui/icon-button";
-import { Size } from "@/types";
+import { Size, Flavor } from "@/types";
 import { Button, Dialog, DialogPanel } from "@headlessui/react";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
@@ -9,10 +9,12 @@ import Filter from "./filter";
 
 interface MobileFiltersProps {
   sizes: Size[];
+  flavors: Flavor[];
 }
 
 const MobileFilters: React.FC<MobileFiltersProps> = ({
   sizes,
+  flavors
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -43,7 +45,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
             {/* Renderizar los filtros */}
             <div className="p-4">
               <Filter valueKey="sizeId" name="Presentaciones" data={sizes} />
-              {/* Filtro de volumen/medida */}
+              <Filter valueKey="flavorId" name="Variedades" data={flavors} />
             </div>
           </DialogPanel>
         </div>

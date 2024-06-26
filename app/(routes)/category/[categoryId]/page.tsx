@@ -1,6 +1,7 @@
 import getCategory from "@/actions/get-category";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
+import getFlavors from "@/actions/get-flavors";
 import Billboard from "@/components/billboard";
 import Container from "@/components/ui/container";
 import Filter from "./components/filter";
@@ -16,6 +17,7 @@ interface CategoryPageProps {
   };
   searchParams: {
     sizeId: string;
+    flavorId: string;
   };
 }
 
@@ -26,9 +28,11 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   const products = await getProducts({
     categoryId: params.categoryId,
     sizeId: searchParams.sizeId,
+    flavorId: searchParams.flavorId,
   });
 
   const sizes = await getSizes();
+  const flavors = await getFlavors();
   const category = await getCategory(params.categoryId);
 
   return (
@@ -38,10 +42,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
 
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
-            <MobileFilters sizes={sizes} />
+            <MobileFilters sizes={sizes} flavors={flavors}/>
             <div className="hidden lg:block">
               <Filter valueKey="sizeId" name="Presentaciones" data={sizes} />
-              <MobileFilters sizes={sizes} />
+              <Filter valueKey="flavorId" name="Variedades" data={flavors} />
             </div>
             <div className="mt-6 lg:col-span-4 lg:mt-0">
               {products.length === 0 && <NoResults />}

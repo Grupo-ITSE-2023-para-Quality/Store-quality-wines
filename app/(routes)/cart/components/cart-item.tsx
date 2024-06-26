@@ -36,7 +36,7 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
           <IconButton onClick={onRemove} icon={<X size={15} />} />
         </div>
         <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6">
-          <p className="text-lg font-semibold text-black">{data.name}</p>
+          <p className="text-m font-semibold text-black">{data.name}</p>
         </div>
         <Currency value={data.price} />
       </div>
