@@ -26,6 +26,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         </div>
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black"> Variedad: </h3>
+          <div>{data.flavor?.name}</div>
         </div>
       </div>
       <div className="mt-10 flex items-center gap-x-3">
