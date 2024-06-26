@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'; // Importar el componente Link
 import getBillboard from "@/actions/get-billboard";
 import Container from "@/components/ui/container";
 import Billboard from "@/components/billboard";
@@ -19,20 +19,20 @@ const HomePage = async () => {
     <Container>
       <VideoOverlay />
       <div className="space-y-3 pb-10 mb-100">
-        <Link href="/delicatessen">  {/* Link para Delicatessen */}
-          <a>
+        <Link href="/delicatessen" passHref>
+          <div>
             <Billboard data={billboard2} />
-          </a>
+          </div>
         </Link>
-        <Link href="/bebidas">  {/* Link para Bebidas */}
-          <a>
+        <Link href="/bebidas" passHref>
+          <div>
             <Billboard data={billboard} />
-          </a>
+          </div>
         </Link>
-        <Link href="/regaleria-y-accesorios">  {/* Link para Regalería y accesorios */}
-          <a>
+        <Link href="/regaleria-y-accesorios" passHref>
+          <div>
             <Billboard data={billboard3} />
-          </a>
+          </div>
         </Link>
         <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
           <ProductList title="Productos destacados" items={products} />
