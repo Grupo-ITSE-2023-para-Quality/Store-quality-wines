@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import getBillboard from "@/actions/get-billboard";
 import Container from "@/components/ui/container";
 import Billboard from "@/components/billboard";
@@ -18,9 +19,21 @@ const HomePage = async () => {
     <Container>
       <VideoOverlay />
       <div className="space-y-3 pb-10 mb-100">
-        <Billboard data={billboard} />
-        <Billboard data={billboard2} />
-        <Billboard data={billboard3} />
+        <Link href="/delicatessen">  {/* Link para Delicatessen */}
+          <a>
+            <Billboard data={billboard2} />
+          </a>
+        </Link>
+        <Link href="/bebidas">  {/* Link para Bebidas */}
+          <a>
+            <Billboard data={billboard} />
+          </a>
+        </Link>
+        <Link href="/regaleria-y-accesorios">  {/* Link para Regalería y accesorios */}
+          <a>
+            <Billboard data={billboard3} />
+          </a>
+        </Link>
         <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
           <ProductList title="Productos destacados" items={products} />
           <IframeMap />
