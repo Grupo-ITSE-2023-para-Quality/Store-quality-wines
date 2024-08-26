@@ -1,8 +1,9 @@
 "use client";
 
 import IconButton from "@/components/ui/icon-button";
+import Button from "@/components/ui/button";
 import { Size, Flavor } from "@/types";
-import { Button, Dialog, DialogPanel } from "@headlessui/react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import Filter from "./filter";

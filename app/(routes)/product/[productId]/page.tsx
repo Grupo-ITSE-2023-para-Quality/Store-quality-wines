@@ -3,7 +3,7 @@ import getProducts from "@/actions/get-products";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 import Gallery from "@/components/gallery";
-import Info from "@/components/ui/info";
+import Info from "@/components/info";
 
 interface ProductPageProps {
   params: {

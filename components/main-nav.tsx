@@ -3,19 +3,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Category } from "@/types";
+import { Billboard } from "@/types";
 
 interface MainNavProps {
-  data: Category[];
+  data: Billboard[];
 }
 
 const MainNav: React.FC<MainNavProps> = ({ data }) => {
   const pathname = usePathname();
 
   const routes = data.map((route) => ({
-    href: `/category/${route.id}`,
-    label: route.name,
-    active: pathname === `/category/${route.id}`,
+    href: `/billboard/${route.id}`,
+    label: route.label,
+    active: pathname === `/billboard/${route.id}`,
   }));
 
   return (

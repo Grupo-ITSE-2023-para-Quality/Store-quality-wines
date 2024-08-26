@@ -1,8 +1,8 @@
 "use client";
 
 import { Product } from "@/types";
-import Currency from "./currency";
-import Button from "./button";
+import Currency from "@/components/ui/currency";
+import Button from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 
 interface InfoProps {
@@ -22,15 +22,15 @@ const Info: React.FC<InfoProps> = ({ data }) => {
       <div className="flex flex-col gap-y-6">
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black"> Descripción: </h3>
-          <div>{data?.description}</div>
+          <div>{data?.description || "Información no disponible"}</div>
         </div>
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black"> Presentación: </h3>
-          <div>{data?.size?.name}</div>
+          <div>{data?.size?.name || "Información no disponible"}</div>
         </div>
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black"> Variedad: </h3>
-          <div>{data?.flavor?.name || "No dispoible"}</div>
+          <div>{data?.flavor?.name || "Información no disponible"}</div>
         </div>
       </div>
       <div className="mt-10 flex items-center gap-x-3">
