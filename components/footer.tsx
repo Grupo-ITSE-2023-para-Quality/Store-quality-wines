@@ -10,6 +10,7 @@ const Footer = () => {
     textAlign: 'center',
     backgroundColor: '#f1f1f1',
     padding: '10px 0',
+    boxShadow: '0 -5px 8px rgba(0, 0, 0, 0.3)', // Sombra hacia arriba
   };
 
   const iconContainerStyle: React.CSSProperties = {
