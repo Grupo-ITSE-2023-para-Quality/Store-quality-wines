@@ -5,32 +5,36 @@ import useCart from "@/hooks/use-cart";
 
 import CartItem from "./components/cart-item";
 import Summary from "./components/summary";
+import ClientForm from "./components/client-form"; 
 
 const CartPage = () => {
-    const cart = useCart();
-    return (
-        <div className="bg-white">
-            <Container>
-                <div className="px-4 py-8 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold text-black">Carrito de compras</h1>
-                    <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start gap-x-12">
-                        <div className="lg:col-span-7">
-                            {cart.items.length === 0 && <p className="text-neutral-500">No hay productos en el carrito</p>}
-                            <ul>
-                                {cart.items.map((item) => (
-                                    <CartItem 
-                                        key={item.id}
-                                        data={item}
-                                    />
-                                ))}
-                            </ul>
-                        </div>
-                        <Summary/>
-                    </div>
-                </div>
-            </Container>
+  const cart = useCart();
+  
+  return (
+    <div className="bg-white">
+      <Container>
+        <div className="px-4 py-8 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-black">Carrito de compras</h1>
+          <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start gap-x-12">
+            <div className="lg:col-span-7">
+              {cart.items.length === 0 && (
+                <p className="text-neutral-500">No hay productos en el carrito</p>
+              )}
+              <ul>
+                {cart.items.map((item) => (
+                  <CartItem key={item.id} data={item} />
+                ))}
+              </ul>
+            </div>
+            <Summary />
+          </div>
+
+          <ClientForm />
+
         </div>
-    )
-}
+      </Container>
+    </div>
+  );
+};
 
 export default CartPage;

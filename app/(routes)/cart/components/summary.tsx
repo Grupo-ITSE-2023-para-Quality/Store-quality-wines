@@ -41,11 +41,6 @@ const Summary = () => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <div className="mt-8">
-        <Button onClick={() => router.push("/checkout")} className="w-full">
-          Confirmar pedido
-        </Button>
-      </div>
     </div>
   );
 };
