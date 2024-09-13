@@ -1,4 +1,4 @@
-import getCategory from "@/actions/get-category";
+import getBillboard from "@/actions/get-billboard";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
 import getFlavors from "@/actions/get-flavors";
@@ -11,9 +11,9 @@ import MobileFilters from "./components/mobile-filters";
 
 export const revalidate = 0;
 
-interface CategoryPageProps {
+interface BillboardPageProps {
   params: {
-    categoryId: string;
+    billboardId: string;
   };
   searchParams: {
     sizeId: string;
@@ -21,22 +21,18 @@ interface CategoryPageProps {
   };
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams }) => {
-  const products = await getProducts({
-    categoryId: params.categoryId,  // Filtrar por categoría
-    sizeId: searchParams.sizeId,
-    flavorId: searchParams.flavorId,
-  });
-
+const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParams }) => {
+  const billboard = await getBillboard(params.billboardId);  // Obtener el billboard y sus productos
+  const { products } = billboard; // Extraer los productos directamente de la respuesta
+  
   const sizes = await getSizes();
   const flavors = await getFlavors();
-  const category = await getCategory(params.categoryId);
 
   return (
     <div className="bg-white">
       <Container>
-        <Billboard data={category.billboard} />  {/* Mostrar el billboard asociado a la categoría */}
-
+      <Billboard data={billboard.billboard} />  {/* Usamos el billboard obtenido */}
+        
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
             <MobileFilters sizes={sizes} flavors={flavors} />
@@ -59,4 +55,5 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams 
   );
 };
 
-export default CategoryPage;
+
+export default BillboardPage;

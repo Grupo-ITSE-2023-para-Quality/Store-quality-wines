@@ -1,5 +1,5 @@
 import Link from "next/link";
-import getBillboard from "@/actions/get-billboard";
+import getBillboards from "@/actions/get-billboards"; 
 import Container from "@/components/ui/container";
 import Billboard from "@/components/billboard";
 import getProducts from "@/actions/get-products";
@@ -12,33 +12,27 @@ export const revalidate = 0;
 
 const HomePage = async () => {
   // Hacemos las llamadas de datos en paralelo
-  const [products, billboard, billboard2, billboard3] = await Promise.all([
+  const [products, billboards] = await Promise.all([
     getProducts({ isFeatured: true }),
-    getBillboard("86098839-91f9-40fb-a6aa-ebad5b196947"),
-    getBillboard("0f57c0c5-554f-448d-91c4-614bdb2b8c6f"),
-    getBillboard("fae0f63a-d675-477f-a192-01c04e18911c"),
+    getBillboards(),  
   ]);
 
   const productSectionStyle: React.CSSProperties = {
-    marginTop: "50px", // Espacio entre las secciones de imágenes y los productos destacados
+    marginTop: "50px", 
   };
 
-  const billboardHeight = "500px"; // Ajustar la altura de los billboards aquí
+  const billboardHeight = "500px"; 
 
   return (
     <Container>
       <VideoOverlay />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Uso de la prop 'height' para controlar la altura */}
-        <Link href="/bebidas" passHref>
-          <Billboard data={billboard} height={billboardHeight} />
-        </Link>
-        <Link href="/delicatessen" passHref>
-          <Billboard data={billboard2} height={billboardHeight} />
-        </Link>
-        <Link href="/regaleria-y-accesorios" passHref>
-          <Billboard data={billboard3} height={billboardHeight} />
-        </Link>
+        {/* Renderizamos los billboards obtenidos dinámicamente */}
+        {billboards.slice(0, 3).map((billboard) => (
+          <Link key={billboard.id} href={`/${billboard.label}`} passHref>
+            <Billboard data={billboard} height={billboardHeight} />
+          </Link>
+        ))}
       </div>
       <div
         style={productSectionStyle}
