@@ -113,7 +113,7 @@ const ClientForm = () => {
         <Box mt={4}>
           <Button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md"
+            className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition"
             disabled={isLoading}
           >
             {isLoading ? "Procesando..." : "Finalizar pedido"}
