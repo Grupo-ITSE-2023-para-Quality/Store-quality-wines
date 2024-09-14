@@ -43,28 +43,34 @@ const ClientForm = () => {
         {
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         }
       );
       onCheckoutSuccess(response.data.url);
     } catch (error) {
       console.error("Error durante el checkout:", error);
-      toast.error("Ocurrió un error durante el checkout. Por favor, inténtalo de nuevo.");
+      toast.error(
+        "Ocurrió un error durante el checkout. Por favor, inténtalo de nuevo."
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   const onCheckoutSuccess = (url: string) => {
-    toast.success("¡Gracias por tu compra! Pronto recibirás un mensaje vía WhatsApp.");
+    toast.success(
+      "¡Gracias por tu compra! Pronto recibirás un mensaje vía WhatsApp."
+    );
     cart.removeAll(); // Vaciar el carrito
     window.location.href = "/";
   };
 
   return (
-    <Box mt={4}>
+    <Box mt={4} className="bg-white p-6 rounded-lg shadow-sm">
       <form onSubmit={handleSubmit}>
-        <h2>Datos del cliente</h2>
+        <h2 className="text-lg font-medium text-gray-900 mb-4">
+          Datos del cliente
+        </h2>
         <TextField
           fullWidth
           required
@@ -107,8 +113,7 @@ const ClientForm = () => {
         <Box mt={4}>
           <Button
             type="submit"
-            color="primary"
-            className="w-full"
+            className="w-full bg-blue-500 text-white py-2 rounded-md"
             disabled={isLoading}
           >
             {isLoading ? "Procesando..." : "Finalizar pedido"}

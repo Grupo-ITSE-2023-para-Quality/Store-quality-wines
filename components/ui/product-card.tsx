@@ -41,7 +41,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       {/* Imágenes y acciones */}
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
-          src={data.images?.[0]?.url || "/images/vistaPrevia.jpg"} // Verificación adicional de la existencia de imágenes
+          src={data.images?.[0]?.url} // Verificación adicional de la existencia de imágenes
           fill
           alt="Product Image"
           className="aspect-square object-cover rounded-md"
