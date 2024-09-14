@@ -4,19 +4,12 @@ import { useState } from "react";
 import { Box, Grid, TextField } from "@mui/material";
 import Button from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
-import axios from "axios";
 import toast from "react-hot-toast";
-
-interface CheckoutData {
-  name: string;
-  lastName: string;
-  phone: string;
-  email: string;
-}
+import { sendOrder } from "@/app/api/orders/sendOrder";
 
 const ClientForm = () => {
   const cart = useCart();
-  const items = useCart((state) => state.items);
+  const items = cart.items;
   const [isLoading, setIsLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -25,7 +18,6 @@ const ClientForm = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const checkoutData: CheckoutData = { name, lastName, phone, email };
 
     if (items.length === 0) {
       toast.error("Tu carrito está vacío.");
@@ -33,44 +25,35 @@ const ClientForm = () => {
     }
 
     setIsLoading(true);
+
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
-        {
-          productIds: items.map((item) => item.id),
-          checkoutData,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      // Enviar los datos del formulario y el carrito al backend
+      const response = await sendOrder(
+        name,
+        lastName,
+        phone,
+        email || null, // si el email es opcional
+        items
       );
-      onCheckoutSuccess(response.data.url);
+      onCheckoutSuccess(response);
     } catch (error) {
       console.error("Error durante el checkout:", error);
-      toast.error(
-        "Ocurrió un error durante el checkout. Por favor, inténtalo de nuevo."
-      );
+      toast.error("Ocurrió un error durante el checkout. Por favor, inténtalo de nuevo.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const onCheckoutSuccess = (url: string) => {
-    toast.success(
-      "¡Gracias por tu compra! Pronto recibirás un mensaje vía WhatsApp."
-    );
+  const onCheckoutSuccess = (url?: string) => {
+    toast.success("¡Gracias por tu compra! Pronto recibirás un mensaje.");
     cart.removeAll(); // Vaciar el carrito
     window.location.href = "/";
   };
-
+  
   return (
-    <Box mt={4} className="bg-white p-6 rounded-lg shadow-sm">
+    <Box mt={4}>
       <form onSubmit={handleSubmit}>
-        <h2 className="text-lg font-medium text-gray-900 mb-4">
-          Datos del cliente
-        </h2>
+        <h2>Datos del cliente</h2>
         <TextField
           fullWidth
           required
