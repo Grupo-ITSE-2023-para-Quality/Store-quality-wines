@@ -7,7 +7,7 @@ import ProductList from "@/components/product-list";
 import IframeMap from "@/components/iframe-map";
 import VideoOverlay from "@/components/video-overlay";
 import Legales from "@/components/legales";
-import AgeVerification from "@/components/age-verification"; // Asegúrate de ajustar la ruta
+import AgeVerification from "@/components/age-verification";
 import Newsletter from "@/components/newsletter";
 
 export const revalidate = 0;
@@ -30,7 +30,7 @@ const HomePage = async () => {
       <VideoOverlay />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {billboards.slice(0, 3).map((billboard) => (
-          <Link key={billboard.id} href={`/${billboard.label}`} passHref>
+          <Link key={billboard.id} href={`/billboard/${billboard.id}`} passHref>
             <Billboard data={billboard} height={billboardHeight} />
           </Link>
         ))}

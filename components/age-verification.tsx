@@ -1,20 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const AgeVerification: React.FC = () => {
   const [isVerified, setIsVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const hasVerified = localStorage.getItem("ageVerified");
+    if (hasVerified === "true") {
+      setIsVerified(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   const handleVerification = () => {
+    localStorage.setItem("ageVerified", "true");
     setIsVerified(true);
   };
+
+  if (isLoading) {
+    return null;
+  }
 
   if (isVerified) {
     return null;
   }
 
   const containerStyle: React.CSSProperties = {
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)"
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
   };
 
   return (
