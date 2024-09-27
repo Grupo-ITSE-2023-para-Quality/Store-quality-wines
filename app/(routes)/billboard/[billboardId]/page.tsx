@@ -16,22 +16,21 @@ interface BillboardPageProps {
     billboardId: string;
   };
   searchParams: {
-    sizeId: string;
-    flavorId: string;
+    sizeId?: string;
+    flavorId?: string;
   };
 }
 
 const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParams }) => {
-  const billboard = await getBillboard(params.billboardId);  // Obtener el billboard y sus productos
-  const { products } = billboard; // Extraer los productos directamente de la respuesta
-  
+  const billboard = await getBillboard(params.billboardId);  
+  const products = await getProducts({ billboardId: params.billboardId, ...searchParams }); 
+
   const sizes = await getSizes();
   const flavors = await getFlavors();
-
   return (
     <div className="bg-white">
       <Container>
-      <Billboard data={billboard.billboard} />  {/* Usamos el billboard obtenido */}
+        <Billboard data={billboard} />  {/* Usamos el billboard obtenido */}
         
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
@@ -54,6 +53,5 @@ const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParam
     </div>
   );
 };
-
 
 export default BillboardPage;

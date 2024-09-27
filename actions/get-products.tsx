@@ -10,9 +10,7 @@ interface Query {
   flavorId?: string;
   isFeatured?: boolean;
   billboardId?: string;
-
 }
-
 const getProducts = async (query: Query): Promise<Product[]> => {
   const url = qs.stringifyUrl({
     url: URL,
@@ -21,12 +19,25 @@ const getProducts = async (query: Query): Promise<Product[]> => {
       categoryId: query.categoryId,
       flavorId: query.flavorId,
       isFeatured: query.isFeatured,
+      billboardId: query.billboardId, // Asegúrate de incluir esto
     },
   });
 
-  const res = await fetch(url);
 
-  return res.json();
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Error al obtener productos");
+    }
+
+    return res.json();
+  } catch (error: any) {
+    console.error("Error fetching products:", error.message);
+    return [];
+  }
 };
+
 
 export default getProducts;
