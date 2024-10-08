@@ -15,7 +15,7 @@ const Navbar = async () => {
           <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
             <p className="font-bold text-xl">Quality</p>
           </Link>
-          <MainNav data={billboard} />
+          <MainNav data={billboard} products={[]} />
           <NavbarActions />
         </div>
       </Container>

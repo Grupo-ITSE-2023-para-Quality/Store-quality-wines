@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Billboard } from "@/types";
+import { Billboard, Product } from "@/types";
+import ProductSearch from "@/components/ui/search-bar"; 
 
 interface MainNavProps {
   data: Billboard[];
+  products: Product[];
 }
 
-const MainNav: React.FC<MainNavProps> = ({ data }) => {
+const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
   const pathname = usePathname();
 
   const routes = data.map((route) => ({
@@ -32,6 +34,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
           {route.label}
         </Link>
       ))}
+      <ProductSearch items={products} className="ml-auto" />
     </nav>
   );
 };
