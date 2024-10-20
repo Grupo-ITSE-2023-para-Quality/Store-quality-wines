@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Billboard, Product } from "@/types";
-import ProductSearch from "@/components/ui/search-bar"; 
+import ProductSearch from "@/components/ui/search-bar";
+import { ChevronDown } from "lucide-react";
 
 interface MainNavProps {
   data: Billboard[];
@@ -14,27 +15,59 @@ interface MainNavProps {
 const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
   const pathname = usePathname();
 
-  const routes = data.map((route) => ({
-    href: `/billboard/${route.id}`,
-    label: route.label,
-    active: pathname === `/billboard/${route.id}`,
+  const createNavItems = (data: Billboard[]) => {
+    return data.map((item) => ({
+      name: item.label,
+      href: `/billboard/${item.id}`,
+      dropdownItems: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
+    }));
+  };
+
+  const routes = createNavItems(data).map((route) => ({
+    ...route,
+    active: pathname === route.href,
   }));
 
   return (
-    <nav className="mx-6 flex items-center gap-2.5 space-x-4 lg:space-x-6 h-16">
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={route.href}
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-black",
-            route.active ? "text-black" : "text-neutral-500"
-          )}
-        >
-          {route.label}
-        </Link>
-      ))}
-      <ProductSearch items={products} className="ml-auto" />
+    <nav className="mx-auto flex flex-col items-center space-y-4 lg:space-y-6 py-4">
+      <div className="w-full flex justify-center">
+        <ProductSearch items={products} className="w-full max-w-[400px]" />
+      </div>
+
+      <div className="flex space-x-4 lg:space-x-6">
+        {routes.map((route) => (
+          <div key={route.href} className="relative group">
+            <Link
+              href={route.href}
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-black",
+                route.active ? "text-black" : "text-neutral-500"
+              )}
+            >
+              {route.name}
+              <ChevronDown
+                className="ml-1 h-4 w-4 inline-block"
+                aria-hidden="true"
+              />
+            </Link>
+            <div className="absolute z-10 left-0 mt-2 w-56 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+              <div className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="py-1">
+                  {route.dropdownItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </nav>
   );
 };

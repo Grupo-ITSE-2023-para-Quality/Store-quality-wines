@@ -10,25 +10,28 @@ const VideoOverlay: React.FC = () => {
       setIsSmallScreen(window.innerWidth <= 320 && window.innerHeight <= 960);
     };
 
-    handleResize(); // Check screen size on initial render
-    window.addEventListener('resize', handleResize); // Add event listener for window resize
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize); // Clean up event listener on component unmount
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
-    margin: '0 auto',
-    marginBottom: '40px',
+    margin: '100px auto',
+    marginBottom: '30px',
+    borderRadius: '16px', // Añadir bordes redondeados
+    overflow: 'hidden',   // Asegurar que el contenido se ajuste a los bordes redondeados
   };
 
   const videoStyle: React.CSSProperties = {
     width: '100%',
     height: 'auto',
     display: 'block',
+    borderRadius: 'inherit', // Asegurar que el video tenga los mismos bordes
   };
 
   const overlayStyle: React.CSSProperties = {
@@ -46,6 +49,7 @@ const VideoOverlay: React.FC = () => {
     fontSize: '24px',
     fontWeight: 'bold',
     textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+    borderRadius: 'inherit', // Asegurar que el overlay también tenga los mismos bordes
   };
 
   const textContainerStyle: React.CSSProperties = {

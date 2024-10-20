@@ -3,7 +3,7 @@ import React from "react";
 
 interface BillboardProps {
   data: BillboardType;
-  height?: string; // Nueva prop para controlar la altura
+  height?: string;
 }
 
 const Billboard: React.FC<BillboardProps> = ({ data, height = "300px" }) => {
@@ -17,7 +17,7 @@ const Billboard: React.FC<BillboardProps> = ({ data, height = "300px" }) => {
         className="rounded-xl relative overflow-hidden bg-cover"
         style={{
           backgroundImage: `url(${data?.imageUrl})`,
-          height: height, // Aplicamos la altura recibida
+          height: height,
         }}
       >
         <div className="h-full w-full flex flex-col justify-center items-center text-center gap-y-8">

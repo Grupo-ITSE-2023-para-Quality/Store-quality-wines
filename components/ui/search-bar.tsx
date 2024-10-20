@@ -67,25 +67,28 @@ export default function ProductSearch({
           aria-expanded={open}
           aria-label="Search product"
           className={cn(
-            "w-[200px] justify-center items-center flex space-x-2",
+            "w-[400px] justify-center items-center flex space-x-2 text-neutral-500 border-neutral-500",
             className
           )}
         >
-          <MagnifyingGlassIcon className="h-4 w-4" />
-          <p>Buscar</p>
+          <MagnifyingGlassIcon className="h-4 w-4 text-neutral-500" />
+          <p className="text-neutral-500">Buscar</p>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[400px] p-0 bg-white">
         <Command className="bg-white">
           <CommandList>
-            <CommandInput placeholder="Busque producto..." />
+            <CommandInput
+              placeholder="Ingrese producto..."
+              className="text-neutral-500"
+            />
             <CommandEmpty>No encontrado</CommandEmpty>
             <CommandGroup>
               {displayedItems.map((product) => (
                 <CommandItem
                   key={product.value}
                   onSelect={() => onProductSelect(product)}
-                  className="text-sm"
+                  className="text-sm text-neutral-500"
                 >
                   <Image
                     src={product?.images?.[0]?.url}
@@ -97,7 +100,7 @@ export default function ProductSearch({
                   {product.label}
                   <Check
                     className={cn(
-                      "ml-auto h-4 w-4",
+                      "ml-auto h-4 w-4 text-neutral-500",
                       currentProduct?.value === product.value
                         ? "opacity-100"
                         : "opacity-0"
