@@ -1,34 +1,52 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
+import { subscribe } from "@/app/api/subscribers/sendSubscriber";
 
 const Newsletter: React.FC = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      // Aquí podrías realizar la lógica para enviar el email
-      console.log("Email enviado:", email);
-      setEmail("");
-    } else {
-      alert("Por favor ingresa un email válido.");
+
+    if (!email) {
+      setMessage("Por favor ingresa un email válido.");
+      return;
+    }
+
+    try {
+      const response = await subscribe(email);
+
+      if (response.ok) {
+        setMessage("¡Gracias por suscribirte!");
+        setEmail(""); // Limpiar el campo si es exitoso
+      } else {
+        // Leer el cuerpo de la respuesta para extraer el mensaje de error
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.message || 'No se pudo suscribir.'}`);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setMessage(`Error: ${error.message}`);
+      } else {
+        setMessage("Error al suscribirte. Por favor, intenta de nuevo.");
+      }
     }
   };
 
   return (
     <div className="newsletter-container flex flex-col items-center p-4 border border-gray-300 rounded-md">
-      <h2 className="text-2xl font-bold mb-4">
-        Recibí nuestras ofertas
-      </h2>
+      <h2 className="text-2xl font-bold mb-4">Recibí nuestras ofertas</h2>
 
       {/* SVG de vino desde URL */}
       <div className="mb-4">
-        <img
+        <Image
           src="https://www.svgrepo.com/show/64327/wine.svg"
           alt="Vino"
-          width="50"
-          height="50"
+          width={50}
+          height={50}
           className="object-contain"
         />
       </div>
@@ -49,6 +67,8 @@ const Newsletter: React.FC = () => {
           Suscribirse
         </button>
       </form>
+
+      {message && <p className="mt-4 text-center">{message}</p>}
     </div>
   );
 };
