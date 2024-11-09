@@ -29,11 +29,14 @@ const HomePage = async () => {
       <AgeVerification />
       <VideoOverlay />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {billboards.slice(0, 3).map((billboard) => (
-          <Link key={billboard.id} href={`/billboard/${billboard.id}`} passHref>
-            <Billboard data={billboard} height={billboardHeight} />
-          </Link>
-        ))}
+      {billboards
+          .sort((a, b) => (a.label < b.label ? -1 : a.label > b.label ? 1 : 0))
+          .slice(0, 3)
+          .map((billboard) => (
+            <Link key={billboard.id} href={`/billboard/${billboard.id}`} passHref>
+              <Billboard data={billboard} height={billboardHeight} />
+            </Link>
+          ))}
       </div>
       <div
         style={productSectionStyle}

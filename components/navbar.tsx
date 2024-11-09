@@ -4,11 +4,13 @@ import Container from "@/components/ui/container";
 import MainNav from "@/components/main-nav";
 import NavbarActions from "@/components/navbar-actions";
 import getBillboards from "@/actions/get-billboards";
+import getCategories from "@/actions/get-categories";
 
 import logo from "@/app/logo.webp";
 
 const Navbar = async () => {
   const billboard = await getBillboards();
+  const categories = await getCategories();
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white border-b">
@@ -23,7 +25,7 @@ const Navbar = async () => {
               className="object-contain"
             />
           </Link>
-          <MainNav data={billboard} products={[]} />
+          <MainNav data={billboard} products={[]} categories={categories} />
           <NavbarActions />
         </div>
       </Container>

@@ -3,24 +3,33 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Billboard, Product } from "@/types";
+import { Billboard, Product, Category } from "@/types";
 import ProductSearch from "@/components/ui/search-bar";
 import { ChevronDown } from "lucide-react";
 
 interface MainNavProps {
   data: Billboard[];
   products: Product[];
+  categories: Category[];
 }
 
-const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
+const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
 
   const createNavItems = (data: Billboard[]) => {
-    return data.map((item) => ({
-      name: item.label,
-      href: `/billboard/${item.id}`,
-      dropdownItems: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
-    }));
+    return data
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((item) => {
+        const relatedCategories = categories.filter(
+          (category) => category.billboardId === item.id
+        );
+
+        return {
+          name: item.label,
+          href: `/billboard/${item.id}`,
+          dropdownItems: relatedCategories.map((category) => category.name),
+        };
+      });
   };
 
   const routes = createNavItems(data).map((route) => ({
@@ -50,7 +59,9 @@ const MainNav: React.FC<MainNavProps> = ({ data, products }) => {
                 aria-hidden="true"
               />
             </Link>
-            <div className="absolute z-10 left-0 mt-2 w-56 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+
+            {/* Dropdown Items */}
+            <div className="absolute z-10 left-0 mt-2 w-56 opacity-0 group-hover:opacity-100 group-hover:block hidden transition-opacity duration-300 ease-in-out">
               <div className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="py-1">
                   {route.dropdownItems.map((item, index) => (

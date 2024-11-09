@@ -36,4 +36,6 @@ export interface Size {
 export interface Flavor {
   id: string;
   name: string;
+  categoryId: string; 
+  category?: Category;
 };
