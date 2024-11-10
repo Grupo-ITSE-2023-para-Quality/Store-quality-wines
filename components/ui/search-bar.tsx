@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Check } from "lucide-react";
 import { Product } from "@/types";
 import { useParams, useRouter } from "next/navigation";
@@ -23,34 +23,48 @@ import {
 } from "@/components/ui/command";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
+import getProducts from "@/actions/get-products";
 
 type PopoverTriggerProps = React.ComponentPropsWithRef<typeof PopoverTrigger>;
 
 interface ProductSearchProps extends PopoverTriggerProps {
-  items: Product[];
   className?: string;
 }
 
-export default function ProductSearch({
-  className,
-  items = [],
-}: ProductSearchProps) {
+export default function ProductSearch({ className }: ProductSearchProps) {
   const params = useParams();
   const router = useRouter();
 
-  const formattedItems = items.map((item) => ({
-    label: item.name,
-    value: item.id,
-    images: item.images,
-  }));
+  const [products, setProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [open, setOpen] = useState(false);
 
-  const displayedItems = formattedItems.slice(0, 2);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const fetchedProducts = await getProducts({});
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const formattedItems = products
+    .filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((item) => ({
+      label: item.name,
+      value: item.id,
+      images: item.images,
+    }));
 
   const currentProduct = formattedItems.find(
     (item) => item.value === params.productId
   );
-
-  const [open, setOpen] = useState(false);
 
   const onProductSelect = (product: { value: string; label: string }) => {
     setOpen(false);
@@ -81,10 +95,12 @@ export default function ProductSearch({
             <CommandInput
               placeholder="Ingrese producto..."
               className="text-neutral-500"
+              value={searchTerm}
+              onValueChange={setSearchTerm}
             />
             <CommandEmpty>No encontrado</CommandEmpty>
             <CommandGroup>
-              {displayedItems.map((product) => (
+              {formattedItems.map((product) => (
                 <CommandItem
                   key={product.value}
                   onSelect={() => onProductSelect(product)}
@@ -110,13 +126,8 @@ export default function ProductSearch({
               ))}
             </CommandGroup>
           </CommandList>
-          <CommandSeparator />
-          <CommandList>
-            <CommandGroup></CommandGroup>
-          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
   );
 }
-

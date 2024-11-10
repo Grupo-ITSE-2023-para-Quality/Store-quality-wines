@@ -22,15 +22,16 @@ interface CategoryPageProps {
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams }) => {
+  const category = await getCategory(params.categoryId); // Obtener la categoría
   const products = await getProducts({
     categoryId: params.categoryId,  // Filtrar por categoría
     sizeId: searchParams.sizeId,
     flavorId: searchParams.flavorId,
+    billboardId: category.billboardId, // Asegurarse de pasar el billboardId
   });
 
   const sizes = await getSizes();
   const flavors = await getFlavors();
-  const category = await getCategory(params.categoryId);
 
   return (
     <div className="bg-white">

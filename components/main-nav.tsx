@@ -1,5 +1,5 @@
-"use client";
-
+"use client"
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ interface MainNavProps {
 
 const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const createNavItems = (data: Billboard[]) => {
     return data
@@ -27,7 +28,10 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
         return {
           name: item.label,
           href: `/billboard/${item.id}`,
-          dropdownItems: relatedCategories.map((category) => category.name),
+          dropdownItems: relatedCategories.map((category) => ({
+            name: category.name,
+            href: `/category/${category.id}`,
+          })),
         };
       });
   };
@@ -40,12 +44,17 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   return (
     <nav className="mx-auto flex flex-col items-center space-y-4 lg:space-y-6 py-4">
       <div className="w-full flex justify-center">
-        <ProductSearch items={products} className="w-full max-w-[400px]" />
+        <ProductSearch className="w-full max-w-[400px]" />
       </div>
 
       <div className="flex space-x-4 lg:space-x-6">
         {routes.map((route) => (
-          <div key={route.href} className="relative group">
+          <div
+            key={route.href}
+            className="relative group"
+            onMouseEnter={() => setOpenDropdown(route.href)}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
             <Link
               href={route.href}
               className={cn(
@@ -60,22 +69,23 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
               />
             </Link>
 
-            {/* Dropdown Items */}
-            <div className="absolute z-10 left-0 mt-2 w-56 opacity-0 group-hover:opacity-100 group-hover:block hidden transition-opacity duration-300 ease-in-out">
-              <div className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                <div className="py-1">
-                  {route.dropdownItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      {item}
-                    </Link>
-                  ))}
+            {openDropdown === route.href && (
+              <div className="absolute z-10 left-0 mt-2 w-56">
+                <div className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                  <div className="py-1">
+                    {route.dropdownItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         ))}
       </div>
