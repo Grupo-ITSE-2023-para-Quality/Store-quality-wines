@@ -19,7 +19,7 @@ const Legales = () => {
           data-component="consumer-defense"
           style={{
             display: "inline-block",
-            marginBottom: "20px",
+            marginBottom: "60px",
             textDecoration: "underline",
           }}
         >

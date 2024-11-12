@@ -16,6 +16,24 @@ interface MainNavProps {
 const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = (href: string) => {
+    // Limpiamos el timeout en caso de que exista para evitar que se cierre al volver a entrar
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
+      setCloseTimeout(null);
+    }
+    setOpenDropdown(href); // Mostrar dropdown inmediatamente
+  };
+
+  const handleMouseLeave = () => {
+    // Iniciar un timeout de 1.5 segundos para cerrar el dropdown
+    const timeout = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 750);
+    setCloseTimeout(timeout);
+  };
 
   const createNavItems = (data: Billboard[]) => {
     return data
@@ -52,8 +70,8 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
           <div
             key={route.href}
             className="relative group"
-            onMouseEnter={() => setOpenDropdown(route.href)}
-            onMouseLeave={() => setOpenDropdown(null)}
+            onMouseEnter={() => handleMouseEnter(route.href)}
+            onMouseLeave={handleMouseLeave}
           >
             <Link
               href={route.href}

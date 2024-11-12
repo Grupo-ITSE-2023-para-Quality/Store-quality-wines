@@ -6,7 +6,7 @@ import NavbarActions from "@/components/navbar-actions";
 import getBillboards from "@/actions/get-billboards";
 import getCategories from "@/actions/get-categories";
 
-import logo from "@/app/logo.webp";
+import logo from "@/app/wine.png";
 
 const Navbar = async () => {
   const billboard = await getBillboards();

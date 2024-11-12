@@ -29,11 +29,12 @@ const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParam
   const flavors = await getFlavors();
   return (
     <div className="bg-white">
-      <Container>
-        <Billboard data={billboard} />  {/* Usamos el billboard obtenido */}
-        
-        <div className="px-4 sm:px-6 lg:px-8 pb-24">
-          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
+      <Container> 
+      <div className="mt-20 mb-5  "> {/* Margen superior e inferior más amplio */}
+      <Billboard data={billboard} />  {/* Usamos el billboard obtenido */}
+    </div>
+        <div className="px-4 sm:px-6 lg:px-8 pb-24 ">
+          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 mt-150">
             <MobileFilters sizes={sizes} flavors={flavors} />
             <div className="hidden lg:block">
               <Filter valueKey="sizeId" name="Presentaciones" data={sizes} />

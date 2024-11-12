@@ -36,10 +36,11 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams 
   return (
     <div className="bg-white">
       <Container>
+        <div className="mt-20 mb-5  ">
         <Billboard data={category.billboard} />  {/* Mostrar el billboard asociado a la categoría */}
-
+        </div>
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
-          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
+          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 mt-150">
             <MobileFilters sizes={sizes} flavors={flavors} />
             <div className="hidden lg:block">
               <Filter valueKey="sizeId" name="Presentaciones" data={sizes} />

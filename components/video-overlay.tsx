@@ -22,6 +22,7 @@ const VideoOverlay: React.FC = () => {
     position: 'relative',
     width: '100%',
     margin: '100px auto',
+    marginTop: '110px',
     marginBottom: '30px',
     borderRadius: '16px', // Añadir bordes redondeados
     overflow: 'hidden',   // Asegurar que el contenido se ajuste a los bordes redondeados
