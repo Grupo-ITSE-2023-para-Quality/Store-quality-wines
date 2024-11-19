@@ -23,8 +23,9 @@ const Summary = () => {
     }
   }, [searchParams, removeAll]);
 
+  // Corrige el cálculo del precio total considerando la cantidad
   const totalPrice = items.reduce(
-    (total, item) => total + Number(item.price),
+    (total, item) => total + item.price * item.quantity,
     0
   );
 

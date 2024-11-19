@@ -3,10 +3,16 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { Product } from "@/types";
 import { toast } from "react-hot-toast";
 
+interface CartItem extends Product {
+  quantity: number;
+}
+
+export type { CartItem };
+
 interface CartStore {
-  items: Product[];
-  addItem: (data: Product) => void;
-  removeItem: (id: string) => void;
+  items: CartItem[];
+  addItem: (data: Product, quantity?: number) => void;
+  removeItem: (id: string, quantity?: number) => void;
   removeAll: () => void;
 }
 
@@ -14,20 +20,53 @@ const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
-      addItem: (data: Product) => {
+      addItem: (data: Product, quantity = 1) => {
         const currentItems = get().items;
         const existingItem = currentItems.find((item) => item.id === data.id);
 
         if (existingItem) {
-          return toast("El producto ya está en el carrito");
+          const newQuantity = existingItem.quantity + quantity;
+          if (newQuantity > data.stock) {
+            toast.error(`Stock insuficiente para ${data.name}`);
+            return;
+          }
+          set({
+            items: currentItems.map((item) =>
+              item.id === data.id
+                ? { ...item, quantity: newQuantity }
+                : item
+            ),
+          });
+        } else {
+          if (quantity > data.stock) {
+            toast.error(`Stock insuficiente para ${data.name}`);
+            return;
+          }
+          set({
+            items: [...currentItems, { ...data, quantity }],
+          });
         }
-
-        set({ items: [...get().items, data] });
         toast.success("Producto añadido al carrito");
       },
-      removeItem: (id: string) => {
-        set({ items: [...get().items.filter((item) => item.id !== id)] });
-        toast.success("Producto quitado del carrito");
+      removeItem: (id: string, quantity = 1) => {
+        const currentItems = get().items;
+        const existingItem = currentItems.find((item) => item.id === id);
+
+        if (!existingItem) return;
+
+        const newQuantity = existingItem.quantity - quantity;
+        if (newQuantity > 0) {
+          set({
+            items: currentItems.map((item) =>
+              item.id === id ? { ...item, quantity: newQuantity } : item
+            ),
+          });
+        } else {
+          set({
+            items: currentItems.filter((item) => item.id !== id),
+          });
+        }
+        toast.success("Producto actualizado en el carrito");
       },
       removeAll: () => set({ items: [] }),
     }),

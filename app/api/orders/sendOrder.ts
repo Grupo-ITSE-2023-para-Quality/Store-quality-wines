@@ -1,4 +1,10 @@
-export async function sendOrder(name: string, lastName: string, phone: string, email: string | null, cartItems: any[]) {
+export async function sendOrder(
+  name: string,
+  lastName: string,
+  phone: string,
+  email: string | null,
+  cartItems: any[]
+) {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
       method: 'POST',
@@ -11,7 +17,9 @@ export async function sendOrder(name: string, lastName: string, phone: string, e
         phone,
         email,
         cartItems: cartItems.map(item => ({
-          productId: item.id, // Asegurarse de enviar el ID correcto
+          productId: item.id,  // ID del producto
+          quantity: item.quantity,  // Cantidad
+          price: item.price,  // Precio
         })),
       }),
     });
