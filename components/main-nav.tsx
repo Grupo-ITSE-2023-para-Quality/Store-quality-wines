@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,10 +28,9 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   };
 
   const handleMouseLeave = () => {
-    // Iniciar un timeout de 1.5 segundos para cerrar el dropdown
     const timeout = setTimeout(() => {
       setOpenDropdown(null);
-    }, 750);
+    }, 50);
     setCloseTimeout(timeout);
   };
 

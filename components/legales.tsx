@@ -3,7 +3,7 @@ import React from "react";
 
 const Legales = () => {
   return (
-    <div className="text-center font-small mb-10 mt-4">
+    <div className="text-center font-small mb-1 mt-4">
       <div className="mb-2">
         Copyright Quality Wines - 2024. Todos los derechos reservados.
       </div>

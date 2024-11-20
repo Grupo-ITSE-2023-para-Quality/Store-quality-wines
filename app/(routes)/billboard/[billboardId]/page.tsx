@@ -30,7 +30,7 @@ const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParam
   return (
     <div className="bg-white">
       <Container> 
-      <div className="mt-20 mb-5  "> {/* Margen superior e inferior más amplio */}
+      <div className="mt-30 mb-5  "> {/* Margen superior e inferior más amplio */}
       <Billboard data={billboard} />  {/* Usamos el billboard obtenido */}
     </div>
         <div className="px-4 sm:px-6 lg:px-8 pb-24 ">
