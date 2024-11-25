@@ -1,5 +1,4 @@
 "use client";
-
 import { Product } from "@/types";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
@@ -12,32 +11,28 @@ interface InfoProps {
 
 const Info: React.FC<InfoProps> = ({ data }) => {
   const cart = useCart();
-
+  
   const onAddToCart = () => {
     if (data?.inStock) {
       cart.addItem(data);
     }
   };
 
-  // Determinar color e indicador del stock
   const getStockIndicator = () => {
     if (!data?.inStock)
       return { color: "bg-gray-400", text: "Stock no disponible" };
-
     if (data?.stock <= 3) {
       return {
         color: "bg-red-500",
         text: `Últimos ${data?.stock} en stock`,
       };
     }
-
     if (data?.quantity <= 5) {
       return {
         color: "bg-orange-500",
         text: `${data?.stock} disponibles`,
       };
     }
-
     return { color: "bg-green-500", text: `${data?.stock} disponibles` };
   };
 
@@ -47,23 +42,21 @@ const Info: React.FC<InfoProps> = ({ data }) => {
     <div>
       <h1 className="text-3xl font-bold text-gray-900">{data.name}</h1>
       <div className="mt-3 flex items-end justify-between">
-        <p className="text-2xl text-gray-900">
-          <Currency value={data?.price} />
-        </p>
+        <Currency value={data?.price} />
       </div>
       <hr className="my-4" />
       <div className="flex flex-col gap-y-6">
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black">Descripción:</h3>
-          <div>{data?.description || "Información no disponible"}</div>
+          <span>{data?.description || "Información no disponible"}</span>
         </div>
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black">Presentación:</h3>
-          <div>{data?.size?.name || "Información no disponible"}</div>
+          <span>{data?.size?.name || "Información no disponible"}</span>
         </div>
         <div className="flex items-center gap-x-4">
           <h3 className="font-semibold text-black">Variedad:</h3>
-          <div>{data?.flavor?.name || "Información no disponible"}</div>
+          <span>{data?.flavor?.name || "Información no disponible"}</span>
         </div>
         <div className="flex items-center gap-x-4">
           <div className="flex items-center gap-x-2">

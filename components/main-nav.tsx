@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { Search, ShoppingCart } from "lucide-react";
 import { Billboard, Product, Category } from "@/types";
 import ProductSearch from "@/components/ui/search-bar";
-import { ChevronDown } from "lucide-react";
+import logo from "@/app/wine.png";
 
 interface MainNavProps {
   data: Billboard[];
@@ -15,24 +15,7 @@ interface MainNavProps {
 
 const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = (href: string) => {
-    // Limpiamos el timeout en caso de que exista para evitar que se cierre al volver a entrar
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
-      setCloseTimeout(null);
-    }
-    setOpenDropdown(href); // Mostrar dropdown inmediatamente
-  };
-
-  const handleMouseLeave = () => {
-    const timeout = setTimeout(() => {
-      setOpenDropdown(null);
-    }, 50);
-    setCloseTimeout(timeout);
-  };
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const createNavItems = (data: Billboard[]) => {
     return data
@@ -41,7 +24,6 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
         const relatedCategories = categories.filter(
           (category) => category.billboardId === item.id
         );
-
         return {
           name: item.label,
           href: `/billboard/${item.id}`,
@@ -58,55 +40,173 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
     active: pathname === route.href,
   }));
 
+  const styles = {
+    navbar: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      backgroundColor: "white",
+      boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)",
+      zIndex: 50,
+    },
+    container: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "1200px",
+      margin: "0 auto",
+    },
+    logo: {
+      display: "flex",
+      alignItems: "center",
+    },
+    search: {
+      flex: 1,
+      display: "none",
+    },
+    searchMobile: {
+      display: "flex",
+      padding: "1rem",
+      margin: "0 auto",
+      width: "80%",
+      justifyContent: "center",
+    },
+    searchMobileInput: {
+      width: "100%",
+      textAlign: "center",
+    },
+    cart: {
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+    },
+    cartBadge: {
+      position: "absolute",
+      top: "-5px",
+      right: "-10px",
+      backgroundColor: "red",
+      color: "white",
+      fontSize: "10px",
+      fontWeight: "bold",
+      borderRadius: "50%",
+      padding: "2px 5px",
+    },
+    menuButton: {
+      display: "none",
+    },
+    categoriesContainer: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "white",
+    },
+    menu: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      transition: "all 0.3s ease-in-out",
+      padding: "1rem 0",
+      width: "100%",
+      maxWidth: "1200px",
+    },
+    menuMobile: {
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "0.5rem",
+      width: "100%",
+      padding: "0.5rem 0",
+      backgroundColor: "white",
+    },
+    link: {
+      fontSize: "14px",
+      fontWeight: "500",
+      textDecoration: "none",
+      color: "black",
+      padding: "0.5rem",
+      textAlign: "center",
+      display: "block",
+      width: "100%",
+    },
+    linkMobile: {
+      width: "100%",
+      textAlign: "center",
+      padding: "0.5rem 0",
+    },
+    pageMargin: {
+      marginTop: "64px", // Altura aproximada de la navbar
+    },
+    "@media (max-width: 768px)": {
+      pageMargin: {
+        marginTop: "96px", // Mayor margen para dispositivos móviles
+      },
+    },
+  };
+
   return (
-    <nav className="mx-auto flex flex-col items-center space-y-4 lg:space-y-6 py-4">
-      <div className="w-full flex justify-center">
-        <ProductSearch className="w-full max-w-[400px]" />
-      </div>
+    <>
+      <nav style={styles.navbar}>
+        <div style={styles.container}>
+          <Link href="/" style={styles.logo}>
+            <img src={logo.src} alt="Logo" style={{ height: "64px" }} />
+          </Link>
 
-      <div className="flex space-x-4 lg:space-x-6">
-        {routes.map((route) => (
-          <div
-            key={route.href}
-            className="relative group"
-            onMouseEnter={() => handleMouseEnter(route.href)}
-            onMouseLeave={handleMouseLeave}
+          <button
+            className="lg:hidden"
+            style={{ ...styles.menuButton, display: "block" }}
+            onClick={() => setMenuOpen((prev) => !prev)}
           >
-            <Link
-              href={route.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-black",
-                route.active ? "text-black" : "text-neutral-500"
-              )}
-            >
-              {route.name}
-              <ChevronDown
-                className="ml-1 h-4 w-4 inline-block"
-                aria-hidden="true"
-              />
-            </Link>
+            <Search className="h-6 w-6" />
+          </button>
 
-            {openDropdown === route.href && (
-              <div className="absolute z-10 left-0 mt-2 w-56">
-                <div className="rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="py-1">
-                    {route.dropdownItems.map((item, index) => (
-                      <Link
-                        key={index}
-                        href={item.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+          <div className="lg:flex" style={styles.search}>
+            <ProductSearch className="w-full" />
           </div>
-        ))}
-      </div>
-    </nav>
+
+          <Link href="/cart" style={styles.cart}>
+            <ShoppingCart className="h-6 w-6" />
+            <span style={styles.cartBadge}>0</span>
+          </Link>
+        </div>
+
+        {menuOpen && (
+          <div className="lg:hidden" style={styles.searchMobile}>
+            <ProductSearch
+              className="w-full text-center"
+              style={styles.searchMobileInput}
+            />
+          </div>
+        )}
+
+        <div style={styles.categoriesContainer}>
+          <div
+            className={`lg:flex ${menuOpen ? "flex" : "hidden"}`}
+            style={{
+              ...styles.menu,
+              ...(menuOpen && styles.menuMobile),
+            }}
+          >
+            {routes.map((route) => (
+              <Link
+                key={route.href}
+                href={route.href}
+                style={{
+                  ...styles.link,
+                  ...(menuOpen && styles.linkMobile),
+                  color: route.active ? "black" : "#888",
+                }}
+              >
+                {route.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </nav>
+      <div style={styles.pageMargin}></div>
+    </>
   );
 };
 

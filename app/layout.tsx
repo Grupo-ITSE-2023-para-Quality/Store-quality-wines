@@ -5,13 +5,15 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import ModalProvider from "@/providers/modal-provider";
 import ToastProvider from "@/providers/toat-provider";
-import Head from "next/head";
 
 const font = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "QualityShop",
   description: "Tienda",
+  icons: {
+    icon: "/favicon.ico", // Configura el favicon aquí.
+  },
 };
 
 export default function RootLayout({
@@ -25,9 +27,6 @@ export default function RootLayout({
         <ModalProvider />
         <ToastProvider />
         <Navbar />
-        <Head>
-            <link rel='icon' href='/favicon.ico' />
-        </Head>
         {children}
         <Footer />
       </body>
