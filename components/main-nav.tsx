@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import useCart from "@/hooks/use-cart";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingCart } from "lucide-react";
 import { Billboard, Product, Category } from "@/types";
@@ -16,6 +17,7 @@ interface MainNavProps {
 const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const cart = useCart();
 
   const createNavItems = (data: Billboard[]) => {
     return data
@@ -168,7 +170,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
 
           <Link href="/cart" style={styles.cart}>
             <ShoppingCart className="h-6 w-6" />
-            <span style={styles.cartBadge}>0</span>
+            <span style={styles.cartBadge}>{cart.items.length}</span>
           </Link>
         </div>
 

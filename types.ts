@@ -18,6 +18,7 @@ export interface Product {
   description: string;
   price: number;
   stock: number;
+  inStock: boolean;
   isFeatured: boolean;
   size: Size;
   flavor: Flavor;

@@ -24,14 +24,16 @@ export async function sendOrder(
       }),
     });
 
+    // Verificar si la respuesta no es OK
     if (!response.ok) {
-      throw new Error('Error al procesar el pedido');
+      const errorData = await response.json(); // Intentar obtener el mensaje de error
+      throw new Error(errorData.error || 'Error al procesar el pedido'); // Usar el mensaje del servidor si está disponible
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error al enviar el pedido:', error);
-    throw error;
+    throw error; // Re-lanzar el error para que pueda ser manejado por el llamador
   }
 }

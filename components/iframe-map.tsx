@@ -19,6 +19,7 @@ const IframeMap: React.FC = () => {
               <p>Esq. Virgen de Guadalupe</p>
               <p>Local 6</p>
               <p>Santiago del Estero, Argentina</p>
+              <p>Horario: Martes a Domingo de 19:00 a 22:00</p>
             </div>
           </div>
 

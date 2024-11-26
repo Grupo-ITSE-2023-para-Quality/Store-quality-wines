@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Product } from "@/types";
 import { toast } from "react-hot-toast";
+import getProducts from "@/actions/get-products";
 
 interface CartItem extends Product {
   quantity: number;
@@ -20,10 +21,17 @@ const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
-      addItem: (data: Product, quantity = 1) => {
+      addItem: async (data: Product, quantity = 1) => {
         const currentItems = get().items;
         const existingItem = currentItems.find((item) => item.id === data.id);
+        const products = await getProducts({}); // Obtener productos actualizados
+        const product = products.find(item => item.id === data.id);
 
+        if (!product || product.stock < quantity) {
+          toast.error(`Stock insuficiente para ${data.name}`);
+          return;
+        }
+        
         if (existingItem) {
           const newQuantity = existingItem.quantity + quantity;
           if (newQuantity > data.stock) {

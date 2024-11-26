@@ -1,9 +1,11 @@
-"use client";
+"use client"; // Asegúrate de que esto esté en la parte superior del archivo
+
 import { Product } from "@/types";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import useCart from "@/hooks/use-cart";
+import { useEffect, useState } from "react";
 
 interface InfoProps {
   data: Product;
@@ -11,10 +13,15 @@ interface InfoProps {
 
 const Info: React.FC<InfoProps> = ({ data }) => {
   const cart = useCart();
-  
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const onAddToCart = () => {
-    if (data?.inStock) {
-      cart.addItem(data);
+    if (data?.inStock && data?.stock > 0) {
+      cart.addItem(data, 1);
     }
   };
 
@@ -27,7 +34,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         text: `Últimos ${data?.stock} en stock`,
       };
     }
-    if (data?.quantity <= 5) {
+    if (data?.stock <= 5) {
       return {
         color: "bg-orange-500",
         text: `${data?.stock} disponibles`,
@@ -38,26 +45,37 @@ const Info: React.FC<InfoProps> = ({ data }) => {
 
   const stockIndicator = getStockIndicator();
 
+  // Solo renderiza el contenido si el componente está montado
+  if (!isMounted) {
+    return null; // O un spinner de carga si lo prefieres
+  }
+
   return (
-    <div>
+    <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
       <h1 className="text-3xl font-bold text-gray-900">{data.name}</h1>
       <div className="mt-3 flex items-end justify-between">
         <Currency value={data?.price} />
       </div>
       <hr className="my-4" />
       <div className="flex flex-col gap-y-6">
-        <div className="flex items-center gap-x-4">
-          <h3 className="font-semibold text-black">Descripción:</h3>
-          <span>{data?.description || "Información no disponible"}</span>
-        </div>
-        <div className="flex items-center gap-x-4">
-          <h3 className="font-semibold text-black">Presentación:</h3>
-          <span>{data?.size?.name || "Información no disponible"}</span>
-        </div>
-        <div className="flex items-center gap-x-4">
-          <h3 className="font-semibold text-black">Variedad:</h3>
-          <span>{data?.flavor?.name || "Información no disponible"}</span>
-        </div>
+        {data?.description && (
+          <div className="flex items-center gap-x-4">
+            <h3 className="font-semibold text-black">Descripción:</h3>
+            <span>{data.description}</span>
+          </div>
+        )}
+        {data?.size?.name && (
+          <div className="flex items-center gap-x-4">
+            <h3 className="font-semibold text-black">Presentación:</h3>
+            <span>{data.size.name}</span>
+          </div>
+        )}
+        {data?.flavor?.name && (
+          <div className="flex items-center gap-x-4">
+            <h3 className="font-semibold text-black">Variedad:</h3>
+            <span>{data.flavor.name}</span>
+          </div>
+        )}
         <div className="flex items-center gap-x-4">
           <div className="flex items-center gap-x-2">
             <span
