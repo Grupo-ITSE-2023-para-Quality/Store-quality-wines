@@ -13,11 +13,11 @@ export const revalidate = 0;
 
 // Ajuste de la interfaz para que sea compatible con el tipo de PageProps esperado.
 interface BillboardPageProps {
-  params: Promise<{ billboardId: string }>; // Ahora 'params' es un Promise.
-  searchParams: {
+  params: Promise<{ billboardId: string }>;
+  searchParams: Promise<{
     sizeId?: string;
     flavorId?: string;
-  };
+  }>; // Cambiar a Promise
 }
 
 const BillboardPage = async ({
@@ -25,10 +25,12 @@ const BillboardPage = async ({
   searchParams,
 }: BillboardPageProps) => {
   const { billboardId } = await params; // Resolviendo el Promise para obtener billboardId.
+  const searchParamsResolved = await searchParams; // Resuelve el Promise
+
   const billboard = await getBillboard(billboardId);
   const products = await getProducts({
     billboardId,
-    ...searchParams,
+    ...searchParamsResolved,
   });
   const sizes = await getSizes();
   const flavors = await getFlavors();
