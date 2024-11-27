@@ -31,7 +31,7 @@ const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParam
     <div className="bg-white">
       <Container>
         {/* Ajuste dinámico de márgenes */}
-        <div className="mt-[72px] mb-8 lg:mt-40"> 
+        <div className="mb-8 lg:mt-32"> 
           <Billboard data={billboard} />
         </div>
 

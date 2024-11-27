@@ -14,12 +14,10 @@ const CartPage = () => {
     <div className="bg-white">
       <Container>
         <div
-          className="px-4 py-8 sm:px-6 lg:px-8"
-          style={{ marginTop: "80px" }}
-        >
+          className="px-4 py-8 sm:px-6 lg:px-8 mt-28"        >
           {" "}
           <h1 className="text-3xl font-bold text-black">Carrito de compras</h1>
-          <div className="mt-12 lg:grid lg:grid-cols-12 lg:gap-8">
+          <div className="mt-4 lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7">
               {cart.items.length === 0 && (
                 <p className="text-neutral-500">
@@ -33,7 +31,7 @@ const CartPage = () => {
               </ul>
             </div>
 
-            <div className="lg:col-span-5 space-y-8">
+            <div className="lg:col-span-5 space-y-8 mb-24">
               <Summary />
               <ClientForm />
             </div>

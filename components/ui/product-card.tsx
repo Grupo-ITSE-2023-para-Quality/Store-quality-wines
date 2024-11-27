@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { MouseEventHandler } from "react";
 import usePreviewModal from "@/hooks/use-preview-modal";
 import useCart from "@/hooks/use-cart";
+import Link from "next/link";
 
 interface ProductCardProps {
   data: Product;
@@ -63,7 +64,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       <div>
         <p className="font-semibold text-lg">{data.name}</p>
         {data.category?.name && (
-          <p className="text-sm text-gray-500">{data.category.name}</p>
+          <Link href={`/category/${data.category.id}`}>
+            <p className="text-sm text-gray-500">
+              {data.category.name}
+            </p>
+          </Link>
         )}
       </div>
       {/* Precio */}

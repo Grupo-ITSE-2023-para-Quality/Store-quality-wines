@@ -24,6 +24,15 @@ const ClientForm = () => {
       return;
     }
 
+  // Validar el número de teléfono
+  const phonePattern = /^\d{10}$/; // Debe tener exactamente 10 dígitos
+  const invalidPattern = /^\d{2}1[5]/; // Tercera y cuarta posición no pueden ser 15
+
+  if (!phonePattern.test(phone) || invalidPattern.test(phone)) {
+    toast.error("El número de teléfono debe tener 10 dígitos sin el 0 y sin el 15.");
+    return;
+  }
+
     setIsLoading(true);
 
     try {
@@ -58,6 +67,7 @@ const ClientForm = () => {
           fullWidth
           required
           label="Número de teléfono"
+          placeholder="Ingrese su número sin 0 y sin 15"
           margin="normal"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}

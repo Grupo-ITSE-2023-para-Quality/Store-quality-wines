@@ -40,7 +40,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     <div className="bg-white">
       <Container>
         {/* Margen superior ajustado */}
-        <div className="mt-40 mb-8">
+        <div className="mb-8 lg:mt-32"> 
           <Billboard data={category.billboard} />{" "}
           {/* Mostrar el billboard asociado a la categoría */}
         </div>

@@ -4,6 +4,9 @@ import Link from "next/link";
 import useCart from "@/hooks/use-cart";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingCart } from "lucide-react";
+import Button from "@/components/ui/button";
+import { ShoppingBag } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Billboard, Product, Category } from "@/types";
 import ProductSearch from "@/components/ui/search-bar";
 import logo from "@/app/wine.png";
@@ -17,7 +20,10 @@ interface MainNavProps {
 const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  const router = useRouter();
   const cart = useCart();
+
 
   const createNavItems = (data: Billboard[]) => {
     return data
@@ -110,7 +116,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
       justifyContent: "center",
       alignItems: "center",
       transition: "all 0.3s ease-in-out",
-      padding: "1rem 0",
+      padding: " 0",
       width: "100%",
       maxWidth: "1200px",
     },
@@ -153,7 +159,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
       <nav style={styles.navbar}>
         <div style={styles.container}>
           <Link href="/" style={styles.logo}>
-            <img src={logo.src} alt="Logo" style={{ height: "64px" }} />
+            <img src={logo.src} alt="Logo" style={{ height: "48px" }} />
           </Link>
 
           <button
@@ -169,8 +175,15 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
           </div>
 
           <Link href="/cart" style={styles.cart}>
-            <ShoppingCart className="h-6 w-6" />
-            <span style={styles.cartBadge}>{cart.items.length}</span>
+            <Button
+              onClick={() => router.push("/cart")}
+              className="flex items-center rounded-full bg-black px-4 py-2"
+            >
+              <ShoppingBag size={20} color="white" />
+              <span className="ml-2 text-sm font-medium text-white">
+                {cart.items.length}
+              </span>
+            </Button>
           </Link>
         </div>
 

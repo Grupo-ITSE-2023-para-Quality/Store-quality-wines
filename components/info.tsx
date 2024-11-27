@@ -6,6 +6,7 @@ import Button from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import useCart from "@/hooks/use-cart";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface InfoProps {
   data: Product;
@@ -53,6 +54,9 @@ const Info: React.FC<InfoProps> = ({ data }) => {
   return (
     <div className="max-w-md mx-auto p-4 md:p-6 lg:p-8">
       <h1 className="text-3xl font-bold text-gray-900">{data.name}</h1>
+      <Link href={`/category/${data.category.id}`}>
+        <h5 className="text-gray-500 hover:underline">{data.category.name}</h5>
+      </Link>
       <div className="mt-3 flex items-end justify-between">
         <Currency value={data?.price} />
       </div>

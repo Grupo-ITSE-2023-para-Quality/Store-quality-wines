@@ -22,7 +22,7 @@ const VideoOverlay: React.FC = () => {
     position: "relative",
     width: "100%",
     margin: "100px auto",
-    marginTop: isSmallScreen ? "190px" : "180px", // Más espacio superior en móvil
+    marginTop: isSmallScreen ? "190px" : "120px", // Más espacio superior en móvil
     marginBottom: isSmallScreen ? "-10px" : "20px",  // Sin margen inferior en móvil
     borderRadius: "16px",
     overflow: "hidden",
