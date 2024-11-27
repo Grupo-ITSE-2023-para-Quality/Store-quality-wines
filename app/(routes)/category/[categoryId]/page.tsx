@@ -8,10 +8,11 @@ import Filter from "./components/filter";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 import MobileFilters from "./components/mobile-filters";
+import PageProps from 'next/app';
 
 export const revalidate = 0;
 
-interface CategoryPageProps {
+interface CategoryPageProps extends PageProps {
   params: {
     categoryId: string;
   };
