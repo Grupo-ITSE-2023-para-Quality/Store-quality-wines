@@ -11,10 +11,9 @@ import MobileFilters from "./components/mobile-filters";
 
 export const revalidate = 0;
 
+// Ajuste de la interfaz para que sea compatible con el tipo de PageProps esperado.
 interface BillboardPageProps {
-  params: {
-    billboardId: string;
-  };
+  params: Promise<{ billboardId: string }>; // Ahora 'params' es un Promise.
   searchParams: {
     sizeId?: string;
     flavorId?: string;
@@ -24,10 +23,11 @@ interface BillboardPageProps {
 const BillboardPage = async ({
   params,
   searchParams,
-}: Awaited<BillboardPageProps>) => {
-  const billboard = await getBillboard(params.billboardId);
+}: BillboardPageProps) => {
+  const { billboardId } = await params; // Resolviendo el Promise para obtener billboardId.
+  const billboard = await getBillboard(billboardId);
   const products = await getProducts({
-    billboardId: params.billboardId,
+    billboardId,
     ...searchParams,
   });
   const sizes = await getSizes();
