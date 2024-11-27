@@ -48,7 +48,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
     active: pathname === route.href,
   }));
 
-  const styles = {
+  const styles: { [key: string]: React.CSSProperties }  = {
     navbar: {
       position: "fixed",
       top: 0,
@@ -147,13 +147,16 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
     pageMargin: {
       marginTop: "64px", // Altura aproximada de la navbar
     },
+  };
+
+  const mediaQueries = {
     "@media (max-width: 768px)": {
       pageMargin: {
         marginTop: "96px", // Mayor margen para dispositivos móviles
       },
     },
   };
-
+  
   return (
     <>
       <nav style={styles.navbar}>
@@ -219,7 +222,7 @@ const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
           </div>
         </div>
       </nav>
-      <div style={styles.pageMargin}></div>
+      <div style={{ ...styles.pageMargin, ...mediaQueries["@media (max-width: 768px)"].pageMargin }}></div>
     </>
   );
 };
