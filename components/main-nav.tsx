@@ -1,6 +1,7 @@
 "use client";
-
+import React, { useState } from "react";
 import Link from "next/link";
+import useCart from "@/hooks/use-cart";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingCart } from "lucide-react";
 import Button from "@/components/ui/button";
@@ -12,10 +13,12 @@ import logo from "@/app/wine.png";
 import Image from "next/image";
 
 interface MainNavProps {
-  data: Category[];
+  data: Billboard[];
+  products: Product[];
+  categories: Category[];
 }
 
-const MainNav: React.FC<MainNavProps> = ({ data }) => {
+const MainNav: React.FC<MainNavProps> = ({ data, products, categories }) => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
