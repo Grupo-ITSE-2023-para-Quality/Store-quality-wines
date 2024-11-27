@@ -6,13 +6,16 @@ import Gallery from "@/components/gallery";
 import Info from "@/components/info";
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     productId: string;
-  };
+  }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
-  const product = await getProduct(params.productId);
+const ProductPage: React.FC<ProductPageProps> = async ({ params, searchParams }) => {
+  const { productId } = await params;
+  
+  const product = await getProduct(productId);
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,
     billboardId: product?.category?.billboardId,

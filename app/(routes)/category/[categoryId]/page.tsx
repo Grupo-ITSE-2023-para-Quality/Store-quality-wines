@@ -8,29 +8,31 @@ import Filter from "./components/filter";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 import MobileFilters from "./components/mobile-filters";
-import PageProps from 'next/app';
+
 
 export const revalidate = 0;
 
-interface CategoryPageProps extends PageProps {
-  params: {
-    categoryId: string;
-  };
-  searchParams: {
+// Ajuste de la interfaz para que sea compatible con el tipo de PageProps esperado.
+interface CategoryPageProps {
+  params: Promise<{ categoryId: string }>; // Cambiar a Promise
+  searchParams: Promise<{
     sizeId?: string;
     flavorId?: string;
-  };
+  }>; // Cambiar a Promise
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({
+const CategoryPage = async ({
   params,
   searchParams,
-}) => {
-  const category = await getCategory(params.categoryId); // Obtener la categoría
+}: CategoryPageProps) => {
+  const { categoryId } = await params; // Resolviendo el Promise para obtener categoryId
+  const searchParamsResolved = await searchParams; // Resuelve el Promise
+
+  const category = await getCategory(categoryId); // Obtener la categoría
   const products = await getProducts({
-    categoryId: params.categoryId, // Filtrar por categoría
-    sizeId: searchParams.sizeId,
-    flavorId: searchParams.flavorId,
+    categoryId: categoryId, // Filtrar por categoría
+    sizeId: searchParamsResolved.sizeId,
+    flavorId: searchParamsResolved.flavorId,
     billboardId: category.billboardId, // Pasar billboardId
   });
 
@@ -40,24 +42,17 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   return (
     <div className="bg-white">
       <Container>
-        {/* Margen superior ajustado */}
         <div className="mb-8 lg:mt-32"> 
           <Billboard data={category.billboard} />{" "}
-          {/* Mostrar el billboard asociado a la categoría */}
         </div>
 
         <div className="px-4 sm:px-6 lg:px-8 pb-16">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-6 mt-12">
-            {/* Filtros para móviles */}
             <MobileFilters sizes={sizes} flavors={flavors} />
-
-            {/* Filtros para escritorio */}
             <div className="hidden lg:block space-y-6">
               <Filter valueKey="sizeId" name="Presentaciones" data={sizes} />
               <Filter valueKey="flavorId" name="Variedades" data={flavors} />
             </div>
-
-            {/* Contenedor de productos */}
             <div className="lg:col-span-4">
               {products.length === 0 && <NoResults />}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
