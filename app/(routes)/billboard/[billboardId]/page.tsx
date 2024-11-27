@@ -21,9 +21,15 @@ interface BillboardPageProps {
   };
 }
 
-const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParams }) => {
+const BillboardPage = async ({
+  params,
+  searchParams,
+}: Awaited<BillboardPageProps>) => {
   const billboard = await getBillboard(params.billboardId);
-  const products = await getProducts({ billboardId: params.billboardId, ...searchParams });
+  const products = await getProducts({
+    billboardId: params.billboardId,
+    ...searchParams,
+  });
   const sizes = await getSizes();
   const flavors = await getFlavors();
 
@@ -31,7 +37,7 @@ const BillboardPage: React.FC<BillboardPageProps> = async ({ params, searchParam
     <div className="bg-white">
       <Container>
         {/* Ajuste dinámico de márgenes */}
-        <div className="mb-8 lg:mt-32"> 
+        <div className="mb-8 lg:mt-32">
           <Billboard data={billboard} />
         </div>
 
